@@ -22,6 +22,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+
 namespace Granule\DataBind\Cast\Serialization;
 
 use Granule\DataBind\Cast\Detection\Detector;
