@@ -7,4 +7,4 @@ before_script:
   - pecl channel-update pecl.php.net
   - printf "\n" | pecl install yaml-2.0.0
   - echo "extension=yaml.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
-  - composer install -n --dev
+  - composer install -n
