@@ -47,9 +47,12 @@ class DependencyResolver {
     }
 
     public static function builder(): DependencyResolverBuilder {
-        return (new DependencyResolverBuilder())
+        return static::emptyBuilder()
             ->add(new DateTimeSerializer())
             ->add(new PrimitiveTypeSerializer())
+            ->add(new CollectionSerializer())
+            ->add(new MapSerializer())
+            ->add(new EnumSerializer())
             ->addBottom(new POPOSerializer(
                 new AccessorTypeDetector(
                     new PropertyDocCommentDetector()
@@ -58,9 +61,9 @@ class DependencyResolver {
     }
 
     public function resolve(Type $type): Serializer {
-        foreach ($this->serializers as $extractor) {
-            if ($extractor->matches($type)) {
-                return $extractor;
+        foreach ($this->serializers as $serializer) {
+            if ($serializer->matches($type)) {
+                return $serializer;
             }
         }
 

@@ -44,7 +44,7 @@ class PropertyDocCommentDetector extends Detector {
                     $sameNsTypeName = $property
                             ->getDeclaringClass()
                             ->getNamespaceName()
-                        .'\\'. $type->getName();
+                        .'\\'.$type->getName();
 
                     if (class_exists($sameNsTypeName)) {
                         return $type->withName($sameNsTypeName);

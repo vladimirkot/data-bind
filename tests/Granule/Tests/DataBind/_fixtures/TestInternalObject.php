@@ -1,5 +1,4 @@
 <?php
-
 /*
  * MIT License
  *
@@ -24,28 +23,13 @@
  * SOFTWARE.
  */
 
-namespace Granule\DataBind\Cast\Serialization;
+namespace Granule\Tests\DataBind\_fixtures;
 
-use Granule\DataBind\Cast\Type;
+class TestInternalObject {
+    /** @var string */
+    private $name;
 
-class DateTimeSerializer extends Serializer {
-    public function matches(Type $type): bool {
-        return is_a($type->getName(), \DateTimeInterface::class, true);
-    }
-
-    /**
-     * @param \DateTimeInterface $data
-     * @return string
-     */
-    public function serialize($data) {
-        return $data->format(DATE_RFC850);
-    }
-
-    protected function unserializeItem($data, Type $type) {
-        $class = ($type->getName() === \DateTimeInterface::class)
-            ? \DateTimeImmutable::class
-            : $type->getName();
-
-        return new $class($data);
+    public function getName(): string {
+        return $this->name;
     }
 }

@@ -25,6 +25,9 @@
 
 namespace Granule\DataBind\Cast;
 
+use Granule\Util\{StrictTypedKey, StrictTypedValue};
+use ReflectionClass;
+
 class Type {
     /** @var string */
     private $name;
@@ -34,7 +37,7 @@ class Type {
     }
 
     public static function fromData($data): Type {
-        return new self(is_object($data) ? get_class($data) : gettype($data));
+        return new static(is_object($data) ? get_class($data) : gettype($data));
     }
 
     public function getName(): string {
@@ -47,5 +50,37 @@ class Type {
 
     public function toFullType(): FullType {
         return FullType::fromName($this->getName());
+    }
+
+    public function getReflection(): ReflectionClass {
+        return new ReflectionClass($this->getName());
+    }
+
+    public function is(string $class): bool {
+        return is_a($this->getName(), $class, true);
+    }
+
+    public function getKeyType(): ?FullType {
+        if ($this->is(StrictTypedKey::class)) {
+            /** @var StrictTypedKey $fake */
+            $fake = $this->getReflection()
+                ->newInstanceWithoutConstructor();
+
+            return FullType::fromName($fake->getKeyType());
+        }
+
+        return null;
+    }
+
+    public function getValueType(): ?FullType {
+        if ($this->is(StrictTypedValue::class)) {
+            /** @var StrictTypedValue $fake */
+            $fake = $this->getReflection()
+                ->newInstanceWithoutConstructor();
+
+            return FullType::fromName($fake->getValueType());
+        }
+
+        return null;
     }
 }

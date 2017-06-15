@@ -1,5 +1,4 @@
 <?php
-
 /*
  * MIT License
  *
@@ -27,25 +26,22 @@
 namespace Granule\DataBind\Cast\Serialization;
 
 use Granule\DataBind\Cast\Type;
+use Granule\Util\Enum;
 
-class DateTimeSerializer extends Serializer {
+class EnumSerializer extends Serializer {
     public function matches(Type $type): bool {
-        return is_a($type->getName(), \DateTimeInterface::class, true);
+        return $type->is(Enum::class);
     }
 
     /**
-     * @param \DateTimeInterface $data
+     * @param Enum $data
      * @return string
      */
     public function serialize($data) {
-        return $data->format(DATE_RFC850);
+        return $data->getValue();
     }
 
     protected function unserializeItem($data, Type $type) {
-        $class = ($type->getName() === \DateTimeInterface::class)
-            ? \DateTimeImmutable::class
-            : $type->getName();
-
-        return new $class($data);
+        return call_user_func([$type->getName(), $data]);
     }
 }

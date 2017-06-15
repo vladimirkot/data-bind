@@ -33,16 +33,19 @@ class DependencyResolverBuilder {
 
     public function add(Serializer $serializer): DependencyResolverBuilder {
         $this->addWithPosition($serializer, 0);
+
         return $this;
     }
 
     public function addTop(Serializer $serializer): DependencyResolverBuilder {
         $this->addWithPosition($serializer, 1);
+
         return $this;
     }
 
     public function addBottom(Serializer $serializer): DependencyResolverBuilder {
         $this->addWithPosition($serializer, -1);
+
         return $this;
     }
 

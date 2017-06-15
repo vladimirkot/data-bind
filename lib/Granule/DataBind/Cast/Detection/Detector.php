@@ -48,7 +48,7 @@ abstract class Detector {
         throw UnknownTypeException::fromReflector($property);
     }
 
-    public function getNext(): ?Detector {
+    protected function getNext(): ?Detector {
         return $this->next;
     }
 
