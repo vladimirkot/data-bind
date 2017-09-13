@@ -77,18 +77,18 @@ class POPOSerializer extends Serializer implements DependencyResolverAware {
 
         foreach ($class->getProperties() as $property) {
             $key = $property->getName();
-            $type = $this->typeDetector->detect($property);
+            $propertyType = $this->typeDetector->detect($property);
 
             if (array_key_exists($key, $data)) {
-                $serializer = $this->resolver->resolve($type);
+                $serializer = $this->resolver->resolve($propertyType);
 
                 if (!$property->isPublic()) {
                     $property->setAccessible(true);
                 }
 
-                $property->setValue($object, $serializer->unserialize($data[$key], $type));
-            } elseif (!$type->isNullable()) {
-                throw NullValueException::fromType($type);
+                $property->setValue($object, $serializer->unserialize($data[$key], $propertyType));
+            } elseif (!$propertyType->isNullable()) {
+                throw NullValueException::fromPropertyWithType($property, $propertyType);
             }
         }
 

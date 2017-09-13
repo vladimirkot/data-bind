@@ -25,8 +25,17 @@
 
 namespace Granule\DataBind\Cast;
 
+use ReflectionProperty;
+
 class NullValueException extends InvalidDataException {
     public static function fromType(Type $type): NullValueException {
         return new self(sprintf('Data of type %s cannot be NULL', $type->getName()));
+    }
+
+    public static function fromPropertyWithType(ReflectionProperty $property, Type $type): NullValueException {
+        return new self(sprintf('Parameter %s:%s of type %s cannot be NULL',
+            $property->getDeclaringClass()->getName(),
+            $property->getName(),
+            $type->getName()));
     }
 }
