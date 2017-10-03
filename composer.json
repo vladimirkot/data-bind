@@ -18,9 +18,9 @@
         }
     ],
     "autoload": {
-        "psr-4": { "Granule\\DataBind\\": "lib/Granule/DataBind" }
+        "psr-4": { "Granule\\DataBind\\": "lib" }
     },
     "autoload-dev": {
-        "psr-4": { "Granule\\Tests\\DataBind\\": "tests/Granule/Tests/DataBind" }
+        "psr-4": { "Granule\\Tests\\DataBind\\": "tests" }
     }
 }
