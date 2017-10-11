@@ -26,7 +26,7 @@
 namespace Granule\DataBind;
 
 use Granule\DataBind\{
-    Extractor\ClassExtractor, Extractor\ClassListExtractor, Injector\BasicInjector
+    Extractor\ClassExtractor, Extractor\ClassListExtractor, Extractor\ScalarExtractor, Injector\BasicInjector
 };
 
 /** Conversion factory class */
@@ -66,6 +66,16 @@ class Converter {
         }
 
         return new ClassExtractor($this->resolver, $object);
+    }
+
+    public function fromExtractable($extractable): Extractor {
+        if (is_iterable($extractable)) {
+            return $this->fromObjectList($extractable);
+        } elseif (is_object($extractable)) {
+            return $this->fromObject($extractable);
+        } elseif (is_scalar($extractable)) {
+            return new ScalarExtractor($extractable);
+        }
     }
 
     public function fromObjectList(iterable $objects): Extractor {
