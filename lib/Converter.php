@@ -59,12 +59,6 @@ class Converter {
     }
 
     public function fromObject($object): Extractor {
-        if (!is_object($object)) {
-            throw new \InvalidArgumentException(
-                sprintf('Data of type %s is not an Object', gettype($object))
-            );
-        }
-
         return new ClassExtractor($this->resolver, $object);
     }
 
