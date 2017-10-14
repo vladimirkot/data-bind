@@ -37,13 +37,16 @@ class POCOSerializer extends Serializer implements DependencyResolverAware {
     private $typeDetector;
     /** @var DependencyResolver */
     private $resolver;
+    /** @var bool */
+    private $skipNull;
 
     public function setResolver(DependencyResolver $resolver): void {
         $this->resolver = $resolver;
     }
 
-    public function __construct(TypeDetector $typeDetector) {
+    public function __construct(TypeDetector $typeDetector, $skipNull = false) {
         $this->typeDetector = $typeDetector;
+        $this->skipNull = $skipNull;
     }
 
     public function matches(Type $type): bool {
@@ -62,6 +65,8 @@ class POCOSerializer extends Serializer implements DependencyResolverAware {
             if ($value !== null) {
                 $serializer = $this->resolver->resolve(Type::fromData($value));
                 $response[$reflectionProperty->getName()] = $serializer->serialize($value);
+            } elseif (!$this->skipNull) {
+                $response[$reflectionProperty->getName()] = null;
             }
         }
 
