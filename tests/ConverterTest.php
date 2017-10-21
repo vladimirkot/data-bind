@@ -254,36 +254,4 @@ class ConverterTest extends TestCase {
         $this->assertTrue(is_array($serialized));
         $this->assertTrue($serialized == $fixture);
     }
-
-    /**
-     * @ test
-     * @dataProvider getFixture
-     *
-     * @param array $fixture
-     * @param string $class
-     */
-    public function pink(array $fixture, string $class): void {
-        /** @var TestObject $deserealized */
-        $deserealized = self::$converter
-            ->fromArray($fixture)
-            ->toObject($class);
-
-        $serialized = self::$converter
-            ->fromObject($deserealized)
-            ->toXml();
-
-        $dom = new \DOMDocument("1.0");
-        $dom->preserveWhiteSpace = false;
-        $dom->formatOutput = true;
-        $dom->loadXML($serialized);
-        echo $dom->saveXML();
-
-        $xml = simplexml_load_string($dom->saveXML());
-        $json = json_encode($xml);
-        $array = json_decode($json,TRUE);
-
-        print_r($array);
-
-        exit;
-    }
 }
