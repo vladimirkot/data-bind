@@ -66,28 +66,52 @@ class PropertyDocCommentTypeDetector extends TypeDetector {
     private function resolveObjectType(string $shortName, string $file): ?string {
         $tokens = token_get_all(file_get_contents($file));
         $ns = [];
-        $nsKey = 0;
-        $nsStarted = false;
+        $nsTokens = false;
+        $aliasUsed = false;
+        $nsGroupPrefix = [];
 
         foreach ($tokens as $i => $token) {
             if (is_array($token)) {
                 if ($token[0] == T_CLASS) {
                     return null;
                 } elseif ($token[0] == T_USE) {
-                    $nsStarted = true;
-                } elseif ($token[0] == T_STRING && $nsStarted) {
-                    $ns[$nsKey][] = $token[1];
-                } elseif ($token[0] == T_NS_SEPARATOR && $nsStarted) {
-                    $ns[$nsKey][] = $token[1];
+                    $nsTokens = true;
+                } elseif ($token[0] == T_STRING && $nsTokens) {
+                    if ($aliasUsed && $ns && $token[1] == $shortName) {
+                        return implode('', $ns);
+                    }
+
+                    $ns[] = $token[1];
+                } elseif ($token[0] == T_NS_SEPARATOR && $nsTokens) {
+                    $ns[] = $token[1];
+                } elseif ($token[0] == T_AS && $nsTokens) {
+                    $aliasUsed = true;
                 }
-            } elseif ($token == ';') {
-                $nsStarted = false;
-                if ($ns && end($ns[$nsKey]) == $shortName) {
-                    return implode('', $ns[$nsKey]);
+            } elseif ($token == ';' && $nsTokens) {
+                $nsTokens = false;
+
+                if ($ns && end($ns) == $shortName) {
+                    return implode('', $ns);
                 }
 
-                $nsKey++;
+                $aliasUsed = false;
+                $ns = [];
+            } elseif ($token == '{' && $nsTokens) {
+                $nsGroupPrefix = $ns;
+            } elseif ($token == '}' && $nsTokens && $nsGroupPrefix) {
+                $nsGroupPrefix = [];
+            } elseif ($token == ',' && $nsTokens && $nsGroupPrefix) {
+                if ($ns && end($ns) == $shortName) {
+                    return implode('', $ns);
+                }
+
+                $aliasUsed = false;
+                $ns = $nsGroupPrefix;
             }
         }
+
+        return null;
     }
+
+
 }
