@@ -23,8 +23,9 @@
  * SOFTWARE.
  */
 
-namespace Granule\Tests\DataBind\_fixtures;
+namespace Granule\Tests\DataBind\_fixtures\SubNs;
 
+use Granule\Tests\DataBind\_fixtures\TestInternalObject;
 use Granule\Util\Map\ArrayMap;
 use Granule\Util\StrictTypedValue;
 

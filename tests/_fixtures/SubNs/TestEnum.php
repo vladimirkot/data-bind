@@ -23,7 +23,7 @@
  * SOFTWARE.
  */
 
-namespace Granule\Tests\DataBind\_fixtures;
+namespace Granule\Tests\DataBind\_fixtures\SubNs;
 
 use Granule\Util\Enum;
 

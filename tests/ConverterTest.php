@@ -28,7 +28,7 @@ namespace Granule\Tests\DataBind;
 use Granule\DataBind\DependencyResolver;
 use Granule\DataBind\Converter;
 use Granule\Tests\DataBind\_fixtures\{
-    TestArrayMap, TestCollection, TestInternalObject, TestObject, TestEnum
+    SubNs\TestArrayMap, TestCollection, TestInternalObject, TestObject, SubNs\TestEnum
 };
 use PHPUnit\Framework\TestCase;
 
@@ -281,7 +281,6 @@ class ConverterTest extends TestCase {
         $xml = simplexml_load_string($dom->saveXML());
         $json = json_encode($xml);
         $array = json_decode($json,TRUE);
-//        array_wa
 
         print_r($array);
 

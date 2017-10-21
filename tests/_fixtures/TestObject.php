@@ -25,6 +25,9 @@
 
 namespace Granule\Tests\DataBind\_fixtures;
 
+use Granule\Tests\DataBind\_fixtures\SubNs\TestArrayMap as AliasForMap;
+use Granule\Tests\DataBind\_fixtures\SubNs\TestEnum;
+
 class TestObject {
     /** @var string */
     private $somestring;
@@ -38,7 +41,7 @@ class TestObject {
     private $birthdate;
     /** @var TestInternalObject[] */
     private $collection;
-    /** @var TestArrayMap */
+    /** @var AliasForMap */
     private $map;
     /** @var bool */
     protected $somebool;
