@@ -63,7 +63,7 @@ class MapSerializer extends Serializer implements DependencyResolverAware {
             );
         }
 
-        foreach ($object->toArray() as $k => $v) {
+        foreach ($object as $k => $v) {
             $data[
                 $keySerializer
                     ? $keySerializer->serialize($k)
