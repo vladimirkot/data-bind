@@ -1,11 +1,11 @@
 {
-    "name": "granule/data-bind",
+    "name": "vladimirkot/granule-data-bind",
     "description": "Granule Data Bind Component",
     "type": "library",
     "require": {
         "php": "^7.1",
         "ext-yaml": "^2.0",
-        "granule/util": "^0.3.0"
+        "vladimirkot/granule-util": "^0.3.*"
     },
     "require-dev": {
         "phpunit/phpunit": "^6"
